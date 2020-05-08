@@ -30,6 +30,14 @@ export const addComments = (comments) => ({
     type: ActionTypes.ADD_COMMENTS,
     payload: comments
 });
+export const postComment = (comment) => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
+});
+export const addComment = (comment) => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
+});
 
 export const fetchCampsites = () => dispatch => {
 
