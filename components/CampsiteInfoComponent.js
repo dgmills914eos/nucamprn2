@@ -25,57 +25,17 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  postFavorite: campsiteId => (postFavorite(campsiteId)),
+  postFavorite: (campsiteId) => postFavorite(campsiteId),
   postComment: (campsiteId, rating, author, text) =>
-    postComment(campsiteId, rating, author, text)
+    postComment(campsiteId, rating, author, text),
 };
 
 function RenderCampsite(props) {
-
-  const {campsite} = props;
-
-  const view = React.createRef();
-  const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
-
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => true,
-    onPanResponderGrant: () => {
-        view.current.rubberBand(1000)
-        .then(endState => console.log(endState.finished ? 'finished' : 'canceled'));
-    },
-    onPanResponderEnd: (e, gestureState) => {
-          console.log('pan responder end', gestureState);
-          if (recognizeDrag(gestureState)) {
-              Alert.alert(
-                  'Add Favorite',
-                  'Are you sure you wish to add ' + campsite.name + ' to favorites?',
-                  [
-                      {
-                          text: 'Cancel',
-                          style: 'cancel',
-                          onPress: () => console.log('Cancel Pressed')
-                      },
-                      {
-                          text: 'OK',
-                          onPress: () => props.favorite ?
-                              console.log('Already set as a favorite') : props.markFavorite()
-                      }
-                  ],
-                  { cancelable: false }
-              );
-          }
-          return true;
-      }
-  });
+  const { campsite } = props;
 
   if (campsite) {
     return (
-        <Animatable.View
-            animation='fadeInDown'
-            duration={2000}
-            delay={1000}
-            ref={view}
-            {...panResponder.panHandlers}>
+      <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
         <Card
           featuredTitle={campsite.name}
           image={{ uri: baseUrl + campsite.image }}
@@ -181,17 +141,24 @@ class CampsiteInfo extends Component {
   };
 
   render() {
-    const campsiteId = this.props.navigation.getParam('campsiteId');
-        const campsite = this.props.campsites.campsites.filter(campsite => campsite.id === campsiteId)[0];
-        const comments = this.props.comments.comments.filter(comment => comment.campsiteId === campsiteId);
-  
+    const campsiteId = this.props.navigation.getParam("campsiteId");
+    const campsite = this.props.campsites.campsites.filter(
+      (campsite) => campsite.id === campsiteId
+    )[0];
+    const comments = this.props.comments.comments.filter(
+      (comment) => comment.campsiteId === campsiteId
+    );
     return (
       <ScrollView>
-         <RenderCampsite campsite={campsite}
-                    favorite={this.props.favorites.includes(campsiteId)}
-                    markFavorite={() => this.markFavorite(campsiteId)}
-                />
-                <RenderComments comments={comments} />
+        <RenderCampsite
+          campsite={campsite}
+          favorite={this.props.favorites.some(
+            (favorite) => favorite === campsiteId
+          )}
+          markFavorite={() => this.markFavorite(campsiteId)}
+          onShowModal={() => this.toggleModal()}
+        />
+        <RenderComments comments={comments} />
         <Modal
           animationType={"slide"}
           transparent={false}
