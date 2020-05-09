@@ -25,9 +25,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  postFavorite: (campsiteId) => postFavorite(campsiteId),
+  postFavorite: campsiteId => (postFavorite(campsiteId)),
   postComment: (campsiteId, rating, author, text) =>
-    postComment(campsiteId, rating, author, text),
+    postComment(campsiteId, rating, author, text)
 };
 
 function RenderCampsite(props) {
@@ -181,24 +181,17 @@ class CampsiteInfo extends Component {
   };
 
   render() {
-    const campsiteId = this.props.navigation.getParam("campsiteId");
-    const campsite = this.props.campsites.campsites.filter(
-      (campsite) => campsite.id === campsiteId
-    )[0];
-    const comments = this.props.comments.comments.filter(
-      (comment) => comment.campsiteId === campsiteId
-    );
+    const campsiteId = this.props.navigation.getParam('campsiteId');
+        const campsite = this.props.campsites.campsites.filter(campsite => campsite.id === campsiteId)[0];
+        const comments = this.props.comments.comments.filter(comment => comment.campsiteId === campsiteId);
+  
     return (
       <ScrollView>
-        <RenderCampsite
-          campsite={campsite}
-          favorite={this.props.favorites.some(
-            (favorite) => favorite === campsiteId
-          )}
-          markFavorite={() => this.markFavorite(campsiteId)}
-          onShowModal={() => this.toggleModal()}
-        />
-        <RenderComments comments={comments} />
+         <RenderCampsite campsite={campsite}
+                    favorite={this.props.favorites.includes(campsiteId)}
+                    markFavorite={() => this.markFavorite(campsiteId)}
+                />
+                <RenderComments comments={comments} />
         <Modal
           animationType={"slide"}
           transparent={false}
