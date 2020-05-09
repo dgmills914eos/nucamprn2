@@ -122,8 +122,9 @@ class CampsiteInfo extends Component {
   markFavorite(campsiteId) {
     this.props.postFavorite(campsiteId);
   }
-  handleComment(campsiteid) {
-    postComment(campsiteid, 5, "ab", "this is my comment");
+  handleComment(campsiteId) {
+    console.log(campsiteId, this.state.rating, this.state.author, this.state.text);
+  this.props.postComment(campsiteId, this.state.rating, this.state.author, this.state.text);
     this.toggleModal();
   }
 
@@ -178,16 +179,16 @@ class CampsiteInfo extends Component {
               placeholder="Author"
               leftIcon={{ type: "font-awesome", name: "user-o" }}
               leftIconContainerStyle={{ paddingRight: 10 }}
-              onChangeText={(value) => this.setState({ comment: value })}
-              value={(rating) => this.setState({ rating: rating })}
+              onChangeText={(value) => this.setState({ author: value })}
+              value={this.state.author}
             />
 
             <Input
               placeholder="Comment"
               leftIcon={{ type: "font-awesome", name: "comment-o" }}
               leftIconContainerStyle={{ paddingRight: 10 }}
-              onChangeText={(value) => this.setState({ comment: value })}
-              value={(rating) => this.setState({ rating: rating })}
+              onChangeText={(value) => this.setState({ text: value })}
+              value={this.state.text}
             />
             <View>
               <Button
