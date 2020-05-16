@@ -27,6 +27,12 @@ class Reservation extends Component {
      //   this.setState({showModal: !this.state.showModal});
     //}
 
+    
+{/*} in alert ok button text: 'OK', 
+                    onPress: () => {
+                        this.presentLocalNotification(this.state.date);
+                        this.resetForm();
+                    } */}
     handleReservation() {
         console.log(JSON.stringify(this.state));
        // this.toggleModal();
