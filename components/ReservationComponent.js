@@ -22,7 +22,7 @@ class Reservation extends Component {
     static navigationOptions = {
         title: 'Reserve Campsite'
     }
-
+//
     //toggleModal() {
      //   this.setState({showModal: !this.state.showModal});
     //}
